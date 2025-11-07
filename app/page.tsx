@@ -2,14 +2,14 @@ import InfiniteGallery from '@/components/InfiniteGallery';
 
 export default function Home() {
 	const sampleImages = [
-		{ src: '/1.webp', alt: 'Image 1' },
-		{ src: '/2.webp', alt: 'Image 2' },
-		{ src: '/3.webp', alt: 'Image 3' },
-		{ src: '/4.webp', alt: 'Image 4' },
-		{ src: '/5.webp', alt: 'Image 5' },
-		{ src: '/6.webp', alt: 'Image 6' },
-		{ src: '/7.webp', alt: 'Image 7' },
-		{ src: '/8.webp', alt: 'Image 8' },
+		{ src: '/batman1.jpg', alt: 'Batman Image 1' },
+		{ src: '/batman2.jpg', alt: 'Batman Image 2' },
+		{ src: '/batman3.jpg', alt: 'Batman Image 3' },
+		{ src: '/batman4.jpg', alt: 'Batman Image 4' },
+		{ src: '/batman5.jpg', alt: 'Batman Image 5' },
+		{ src: '/batman6.jpg', alt: 'Batman Image 6' },
+		{ src: '/batman7.jpg', alt: 'Batman Image 7' },
+		{ src: '/batman8.jpg', alt: 'Batman Image 8' },
 	];
 
 	return (
@@ -24,7 +24,7 @@ export default function Home() {
 			/>
 			<div className="h-screen inset-0 pointer-events-none fixed flex items-center justify-center text-center px-3 mix-blend-exclusion text-white">
 				<h1 className="font-serif text-4xl md:text-7xl tracking-tight">
-					<span className="italic">I create;</span> therefore I am
+					<span className="italic">I'm</span> Batman.
 				</h1>
 			</div>
 

@@ -17,6 +17,9 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
 	title: 'Interactive 3D Gallery',
 	description: 'An immersive 3D infinite gallery experience built with React Three Fiber and Next.js',
+	icons: {
+		icon: '/favicon.ico',
+	},
 };
 
 export default function RootLayout({
