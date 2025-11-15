@@ -1,14 +1,19 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { X, Upload, Trash2 } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { X, Upload, Trash2, Music4, XCircle } from 'lucide-react';
 
 interface EditModalProps {
 	isOpen: boolean;
 	onClose: () => void;
-	onSave: (text: string, images: { src: string; alt: string }[]) => void;
+	onSave: (
+		text: string,
+		images: { src: string; alt: string }[],
+		audio: { src: string; name?: string } | null,
+	) => void;
 	currentText: string;
 	currentImages: { src: string; alt: string }[];
+	currentAudio: { src: string; name?: string } | null;
 }
 
 export default function EditModal({
@@ -17,10 +22,23 @@ export default function EditModal({
 	onSave,
 	currentText,
 	currentImages,
+	currentAudio,
 }: EditModalProps) {
 	const [text, setText] = useState(currentText);
 	const [images, setImages] = useState<{ src: string; alt: string }[]>(currentImages);
+	const [audio, setAudio] = useState<{ src: string; name?: string } | null>(
+		currentAudio ?? null,
+	);
 	const fileInputRefs = useRef<(HTMLInputElement | null)[]>([]);
+	const audioInputRef = useRef<HTMLInputElement | null>(null);
+
+	useEffect(() => {
+		if (!isOpen) return;
+
+		setText(currentText);
+		setImages(currentImages);
+		setAudio(currentAudio ?? null);
+	}, [isOpen, currentAudio, currentImages, currentText]);
 
 	if (!isOpen) return null;
 
@@ -72,10 +90,32 @@ export default function EditModal({
 		setImages(newImages);
 	};
 
+	const handleAudioUpload = (file: File | null) => {
+		if (!file) return;
+
+		if (!file.type.startsWith('audio/')) {
+			alert('Please upload an audio file');
+			return;
+		}
+
+		// Limit audio file size to 20MB
+		if (file.size > 20 * 1024 * 1024) {
+			alert('Audio size must be less than 20MB');
+			return;
+		}
+
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			const src = e.target?.result as string;
+			setAudio({ src, name: file.name });
+		};
+		reader.readAsDataURL(file);
+	};
+
 	const handleSave = () => {
 		// Filter out empty image slots
 		const validImages = images.filter((img) => img.src);
-		onSave(text, validImages);
+		onSave(text, validImages, audio);
 		onClose();
 	};
 
@@ -88,6 +128,7 @@ export default function EditModal({
 		});
 		setText(currentText);
 		setImages(currentImages);
+		setAudio(currentAudio ?? null);
 		onClose();
 	};
 
@@ -183,6 +224,71 @@ export default function EditModal({
 						<p className="mt-2 text-xs font-mono uppercase text-[var(--foreground)]/60">
 							Upload up to 10 images. Supported formats: JPG, PNG, WebP, etc.
 						</p>
+					</div>
+
+					{/* Audio Upload */}
+					<div>
+						<label className="block text-xs font-mono uppercase font-semibold text-[var(--foreground)]/80 mb-2">
+							Background Audio
+						</label>
+						<div className="border-2 border-dashed border-[var(--foreground)]/20 rounded-lg p-4 flex flex-col gap-4">
+							{audio ? (
+								<div className="flex items-center justify-between bg-[var(--foreground)]/10 rounded-lg px-4 py-3">
+									<div className="flex items-center gap-3">
+										<Music4 className="w-5 h-5 text-[var(--foreground)]/70" />
+										<div>
+											<p className="text-sm font-mono text-[var(--foreground)]">
+												{audio.name || 'Uploaded audio'}
+											</p>
+											<audio
+												src={audio.src}
+												controls
+												className="mt-2 w-full"
+											>
+												Your browser does not support the audio element.
+											</audio>
+										</div>
+									</div>
+									<button
+										onClick={() => setAudio(null)}
+										className="p-2 rounded-full hover:bg-red-500/10 text-red-400 hover:text-red-300 transition-colors"
+										aria-label="Remove audio"
+									>
+										<XCircle className="w-5 h-5" />
+									</button>
+								</div>
+							) : (
+								<div className="flex flex-col items-center justify-center text-center gap-3">
+									<Music4 className="w-8 h-8 text-[var(--foreground)]/40" />
+									<p className="text-xs font-mono uppercase text-[var(--foreground)]/60">
+										Upload an audio file to play in the background
+									</p>
+									<button
+										onClick={() => audioInputRef.current?.click()}
+										className="px-4 py-2 border border-[var(--foreground)]/40 rounded-lg hover:bg-[var(--foreground)]/10 transition-colors font-mono uppercase text-xs font-semibold"
+									>
+										Select Audio
+									</button>
+									<input
+										ref={audioInputRef}
+										type="file"
+										accept="audio/*"
+										className="hidden"
+										onChange={(e) => {
+											const file = e.target.files?.[0] || null;
+											handleAudioUpload(file);
+											// Reset the input so the same file can be selected again later if needed
+											if (audioInputRef.current) {
+												audioInputRef.current.value = '';
+											}
+										}}
+									/>
+									<p className="text-[10px] uppercase font-mono text-[var(--foreground)]/40">
+										Max size: 20MB • Formats: MP3, WAV, OGG, etc.
+									</p>
+								</div>
+							)}
+						</div>
 					</div>
 				</div>
 

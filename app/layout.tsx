@@ -15,8 +15,9 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-	title: 'Interactive 3D Gallery',
-	description: 'An immersive 3D infinite gallery experience built with React Three Fiber and Next.js',
+	title: 'Vuesic',
+	description:
+		'Vuesic lets anyone craft immersive, audio-driven showcases with infinite 3D galleries.',
 	icons: {
 		icon: '/favicon.ico',
 	},
@@ -28,7 +29,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<body
 				className={`${geistMono.variable} ${instrumentSerif.variable} antialiased`}
 			>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import InfiniteGallery from '@/components/InfiniteGallery';
 import EditModal from '@/components/EditModal';
 import { Edit2 } from 'lucide-react';
@@ -18,8 +18,17 @@ export default function Home() {
 		{ src: '/batman8.jpg', alt: 'Batman Image 8' },
 	]);
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+	const [audioTrack, setAudioTrack] = useState<{ src: string; name?: string } | null>(
+		null,
+	);
+	const audioRef = useRef<HTMLAudioElement | null>(null);
+	const [shouldAttemptPlay, setShouldAttemptPlay] = useState(false);
 
-	const handleSave = (text: string, newImages: { src: string; alt: string }[]) => {
+	const handleSave = (
+		text: string,
+		newImages: { src: string; alt: string }[],
+		newAudio: { src: string; name?: string } | null,
+	) => {
 		setPortfolioText(text);
 		// Clean up old blob URLs
 		images.forEach((img) => {
@@ -27,8 +36,52 @@ export default function Home() {
 				URL.revokeObjectURL(img.src);
 			}
 		});
-		setImages(newImages.length > 0 ? newImages : images);
+		setImages((prevImages) => (newImages.length > 0 ? newImages : prevImages));
+		setAudioTrack((prevAudio) => {
+			// Revoke old blob URL if needed
+			if (prevAudio?.src?.startsWith('blob:')) {
+				URL.revokeObjectURL(prevAudio.src);
+			}
+			return newAudio;
+		});
+		setShouldAttemptPlay(true);
 	};
+
+	useEffect(() => {
+		if (!audioTrack?.src || !audioRef.current) {
+			return;
+		}
+
+		const audioEl = audioRef.current;
+
+		// Attempt to play, handling autoplay restrictions
+		const tryPlay = () => {
+			audioEl.play().catch(() => {
+				// If autoplay is blocked, show controls briefly and notify the user via console
+				audioEl.controls = true;
+				console.info(
+					'Audio playback was blocked by the browser. The audio controls are now visible so you can start it manually.',
+				);
+			});
+		};
+
+		if (shouldAttemptPlay) {
+			tryPlay();
+			setShouldAttemptPlay(false);
+		}
+	}, [audioTrack, shouldAttemptPlay]);
+
+	useEffect(() => {
+		return () => {
+			// Cleanup when component unmounts
+			setAudioTrack((prevAudio) => {
+				if (prevAudio?.src?.startsWith('blob:')) {
+					URL.revokeObjectURL(prevAudio.src);
+				}
+				return prevAudio;
+			});
+		};
+	}, []);
 
 	// Parse text to handle italic parts
 	// Format: "text before semicolon; rest of text" - part before semicolon becomes italic
@@ -79,6 +132,20 @@ export default function Home() {
 				</p>
 			</div>
 
+			{audioTrack?.src && (
+				<audio
+					ref={audioRef}
+					src={audioTrack.src}
+					autoPlay
+					loop
+					preload="auto"
+					controls={false}
+					className="hidden"
+				>
+					Your browser does not support the audio element.
+				</audio>
+			)}
+
 			{/* Edit Button */}
 			<button
 				onClick={() => setIsEditModalOpen(true)}
@@ -95,6 +162,7 @@ export default function Home() {
 				onSave={handleSave}
 				currentText={portfolioText}
 				currentImages={images}
+				currentAudio={audioTrack}
 			/>
 		</main>
 	);

@@ -1,8 +1,8 @@
-# Interactive 3D Infinite Gallery
+# Vuesic
 
-An immersive, interactive 3D gallery experience that showcases images in a beautiful infinite scrolling environment. Built with React Three Fiber, Three.js, and Next.js, this project features custom shader materials, smooth animations, and an elegant cloth-like visual effect.
+Vuesic is a free, immersive audio-visual showcase builder. Craft looping 3D galleries, pair them with custom audio, and share the results as living experiences. Built with React Three Fiber, Three.js, and Next.js, Vuesic blends motion, depth, and sound into a unified canvas.
 
-![Interactive 3D Gallery](https://img.shields.io/badge/Status-Live-success)
+![Vuesic](https://img.shields.io/badge/Vuesic-Live-success)
 ![Next.js](https://img.shields.io/badge/Next.js-15.5-black)
 ![React Three Fiber](https://img.shields.io/badge/React%20Three%20Fiber-Latest-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
@@ -68,7 +68,7 @@ npm start
 
 ### Adding Your Images
 
-Place your images in the `public/` directory and update the `sampleImages` array in `app/page.tsx`:
+Place your images in the `public/` directory and update the sample images array in `app/page.tsx`:
 
 ```typescript
 const sampleImages = [
@@ -116,10 +116,10 @@ The `InfiniteGallery` component accepts several props for customization:
 ## 📁 Project Structure
 
 ```
-Interactive-Gallery-Portfolio/
+Vuesic/
 ├── app/
 │   ├── layout.tsx          # Root layout with metadata
-│   ├── page.tsx            # Main page component
+│   ├── page.tsx            # Main Vuesic home experience
 │   └── globals.css         # Global styles
 ├── components/
 │   ├── InfiniteGallery.tsx # Main 3D gallery component
