@@ -1,26 +1,31 @@
-# Vuesic
+# Interactive Gallery Portfolio
 
-Vuesic is a free, immersive audio-visual showcase builder. Craft looping 3D galleries, pair them with custom audio, and share the results as living experiences. Built with React Three Fiber, Three.js, and Next.js, Vuesic blends motion, depth, and sound into a unified canvas.
+Interactive Gallery Portfolio is an immersive 3D portfolio/gallery experience. Craft looping, depth-rich galleries, pair them with custom background audio, and overlay your own hero text to create a personal, living showcase. Built with Next.js, React Three Fiber, and Three.js, it blends motion, depth, and sound into a unified canvas.
 
-![Vuesic](https://img.shields.io/badge/Vuesic-Live-success)
+![Interactive Gallery Portfolio](https://img.shields.io/badge/Interactive%20Gallery-Portfolio-success)
 ![Next.js](https://img.shields.io/badge/Next.js-15.5-black)
 ![React Three Fiber](https://img.shields.io/badge/React%20Three%20Fiber-Latest-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
 
 ## ✨ Features
 
-- **Infinite 3D Scrolling**: Seamlessly navigate through images in a three-dimensional space
-- **Custom Shader Materials**: Beautiful cloth-like effects with dynamic curving and rippling animations
-- **Interactive Controls**: 
+- **Infinite 3D Scrolling**: Seamlessly navigate through images in a three-dimensional space.
+- **Custom Shader Materials**: Cloth-like effects with dynamic curving, rippling, and flag-style waving animations.
+- **Interactive Controls**:
   - Mouse wheel scrolling
   - Keyboard navigation (Arrow keys)
   - Touch support for mobile devices
-- **Auto-play Mode**: Automatically resumes scrolling after 3 seconds of inactivity
-- **Dynamic Blur & Fade**: Smooth depth-of-field effects that enhance the 3D experience
-- **Spatial Distribution**: Images are intelligently positioned in 3D space using golden angle distribution
-- **Hover Effects**: Flag-like waving animation when hovering over images
-- **WebGL Fallback**: Graceful degradation for devices without WebGL support
-- **Responsive Design**: Works beautifully on desktop, tablet, and mobile devices
+- **Auto-play Mode**: Automatically resumes scrolling after 3 seconds of inactivity.
+- **Dynamic Blur & Fade**: Depth-aware blur and fade for a cinematic 3D effect.
+- **Spatial Distribution**: Images are intelligently positioned in 3D space using golden angle–inspired distribution.
+- **Hover Effects**: Flag-like waving animation when hovering over image planes.
+- **Edit Modal (No-Code Customization)**:
+  - Update the central portfolio text (with italic formatting support via `;` or `,`)
+  - Upload up to 10 custom images
+  - Attach a looping background audio track
+- **Audio Integration**: Background audio auto-plays when allowed and loops seamlessly, with graceful handling of browser autoplay restrictions.
+- **WebGL Fallback**: Graceful degradation for devices without WebGL support (shows a responsive image grid).
+- **Responsive Design**: Works beautifully on desktop, tablet, and mobile devices.
 
 ## 🚀 Getting Started
 
@@ -34,7 +39,7 @@ Vuesic is a free, immersive audio-visual showcase builder. Craft looping 3D gall
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd Interactive-Gallery-Portfolio/Interactive-Gallery-Portfolio
+cd Interactive-Gallery-Portfolio
 ```
 
 2. Install dependencies:
@@ -66,16 +71,26 @@ npm start
 
 ## 🎨 Customization
 
+### Editing Portfolio Text, Images, and Audio
+
+Most of the customization can be done directly in the UI:
+
+- **Hero Text**: Click the circular **Edit** button (bottom-left on desktop, top-right on mobile) to open the editor.
+  - Use a **semicolon** to italicize the first part of the text, e.g. `I'm; Batman` → `I'm` italic, `Batman` normal.
+  - Alternatively, a phrase like `I'm, Batman` will italicize the part before the comma.
+- **Images**: In the Edit modal, upload up to 10 images (JPG, PNG, WebP, etc.). These will be used by the 3D gallery.
+- **Background Audio**: Upload an audio file (MP3, WAV, OGG, etc.) to loop in the background of the experience.
+
 ### Adding Your Images
 
-Place your images in the `public/` directory and update the sample images array in `app/page.tsx`:
+If you prefer to configure defaults in code, you can place images in the `public/` directory and update the initial images array in `app/page.tsx`:
 
 ```typescript
-const sampleImages = [
-  { src: '/your-image-1.webp', alt: 'Description 1' },
-  { src: '/your-image-2.webp', alt: 'Description 2' },
-  // Add more images...
-];
+const [images, setImages] = useState([
+  { src: '/batman1.jpg', alt: 'Batman Image 1' },
+  { src: '/batman2.jpg', alt: 'Batman Image 2' },
+  // Add or replace with your own images...
+]);
 ```
 
 ### Configuring Gallery Settings
@@ -88,7 +103,7 @@ The `InfiniteGallery` component accepts several props for customization:
   speed={1.2}              // Scroll speed multiplier
   zSpacing={3}             // Spacing between images along Z-axis
   visibleCount={12}        // Number of visible image planes
-  falloff={{              // Opacity falloff distances
+  falloff={{               // Opacity falloff distances
     near: 0.8,
     far: 14
   }}
@@ -116,19 +131,23 @@ The `InfiniteGallery` component accepts several props for customization:
 ## 📁 Project Structure
 
 ```
-Vuesic/
+Interactive-Gallery-Portfolio/
 ├── app/
-│   ├── layout.tsx          # Root layout with metadata
-│   ├── page.tsx            # Main Vuesic home experience
-│   └── globals.css         # Global styles
+│   ├── layout.tsx              # Root layout with metadata
+│   ├── page.tsx                # Main interactive gallery + edit UI
+│   └── globals.css             # Global styles (Next.js app entry)
 ├── components/
-│   ├── InfiniteGallery.tsx # Main 3D gallery component
-│   └── theme-provider.tsx  # Theme context provider
+│   ├── InfiniteGallery.tsx     # Main 3D gallery component (R3F + shaders)
+│   ├── EditModal.tsx           # UI to edit text, images, and audio
+│   └── theme-provider.tsx      # Theme context provider
 ├── lib/
-│   └── utils.ts           # Utility functions
-├── public/                # Static assets (images)
+│   └── utils.ts               # Utility functions
+├── public/                    # Static assets (images, favicon, etc.)
+│   ├── batman1.jpg
+│   ├── batman2.jpg
+│   └── ...                    # Your gallery images
 └── styles/
-    └── globals.css        # Additional global styles
+    └── globals.css            # Additional/global styles
 ```
 
 ## 🎯 Key Implementation Details
@@ -150,7 +169,7 @@ Images are positioned using a golden angle distribution pattern, ensuring natura
 - Material pooling to minimize object creation
 - Efficient texture loading with `useTexture` hook
 - Optimized render loop with `useFrame`
-- WebGL support detection with graceful fallback
+- WebGL support detection with graceful fallback to a simple image grid
 
 ## 📝 License
 
