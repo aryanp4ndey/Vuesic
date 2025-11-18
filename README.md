@@ -1,11 +1,13 @@
-# Interactive Gallery Portfolio
+## Vuesic
 
-Interactive Gallery Portfolio is an immersive 3D portfolio/gallery experience. Craft looping, depth-rich galleries, pair them with custom background audio, and overlay your own hero text to create a personal, living showcase. Built with Next.js, React Three Fiber, and Three.js, it blends motion, depth, and sound into a unified canvas.
+Vuesic is an immersive 3D portfolio/gallery experience. Craft looping, depth-rich galleries, pair them with custom background audio, and overlay your own hero text to create a personal, living showcase.
 
-![Interactive Gallery Portfolio](https://img.shields.io/badge/Interactive%20Gallery-Portfolio-success)
-![Next.js](https://img.shields.io/badge/Next.js-15.5-black)
-![React Three Fiber](https://img.shields.io/badge/React%20Three%20Fiber-Latest-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
+Built with **Next.js**, **React Three Fiber**, and **Three.js**, it blends motion, depth, and sound into a unified canvas.
+
+![Vuesic](https://img.shields.io/badge/Vuesic-Interactive%20Gallery-success)
+![Next.js](https://img.shields.io/badge/Next.js-15.5.3-black)
+![React Three Fiber](https://img.shields.io/badge/React%20Three%20Fiber-latest-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
 
 ## ✨ Features
 
@@ -29,20 +31,22 @@ Interactive Gallery Portfolio is an immersive 3D portfolio/gallery experience. C
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### **Prerequisites**
 
-- Node.js 18+ 
-- npm, yarn, or pnpm
+- **Node.js** 18 or later  
+- **Package manager**: npm, yarn, or pnpm
 
-### Installation
+### **Installation**
 
-1. Clone the repository:
+- **Clone the repository**:
+
 ```bash
 git clone <repository-url>
-cd Interactive-Gallery-Portfolio
+cd vuesic
 ```
 
-2. Install dependencies:
+- **Install dependencies**:
+
 ```bash
 npm install
 # or
@@ -51,7 +55,8 @@ yarn install
 pnpm install
 ```
 
-3. Run the development server:
+- **Run the development server**:
+
 ```bash
 npm run dev
 # or
@@ -60,9 +65,9 @@ yarn dev
 pnpm dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+Then open `http://localhost:3000` in your browser.
 
-### Building for Production
+### **Building for production**
 
 ```bash
 npm run build
@@ -71,17 +76,17 @@ npm start
 
 ## 🎨 Customization
 
-### Editing Portfolio Text, Images, and Audio
+### **Editing portfolio text, images, and audio**
 
-Most of the customization can be done directly in the UI:
+Most customization can be done directly in the UI:
 
-- **Hero Text**: Click the circular **Edit** button (bottom-left on desktop, top-right on mobile) to open the editor.
+- **Hero text**: Click the circular **Edit** button (bottom-left on desktop, top-right on mobile) to open the editor.
   - Use a **semicolon** to italicize the first part of the text, e.g. `I'm; Batman` → `I'm` italic, `Batman` normal.
   - Alternatively, a phrase like `I'm, Batman` will italicize the part before the comma.
-- **Images**: In the Edit modal, upload up to 10 images (JPG, PNG, WebP, etc.). These will be used by the 3D gallery.
-- **Background Audio**: Upload an audio file (MP3, WAV, OGG, etc.) to loop in the background of the experience.
+- **Images**: In the edit modal, upload up to **10 images** (JPG, PNG, WebP, etc.). These will be used by the 3D gallery.
+- **Background audio**: Upload an audio file (MP3, WAV, OGG, etc.) to loop in the background of the experience.
 
-### Adding Your Images
+### **Adding your own default images (in code)**
 
 If you prefer to configure defaults in code, you can place images in the `public/` directory and update the initial images array in `app/page.tsx`:
 
@@ -93,9 +98,9 @@ const [images, setImages] = useState([
 ]);
 ```
 
-### Configuring Gallery Settings
+### **Configuring gallery settings**
 
-The `InfiniteGallery` component accepts several props for customization:
+The `InfiniteGallery` component accepts several props for fine-grained customization:
 
 ```typescript
 <InfiniteGallery
@@ -128,10 +133,10 @@ The `InfiniteGallery` component accepts several props for customization:
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Fonts**: Geist Mono & Instrument Serif
 
-## 📁 Project Structure
+## 📁 Project structure
 
-```
-Interactive-Gallery-Portfolio/
+```text
+vuesic/
 ├── app/
 │   ├── layout.tsx              # Root layout with metadata
 │   ├── page.tsx                # Main interactive gallery + edit UI
@@ -150,9 +155,9 @@ Interactive-Gallery-Portfolio/
     └── globals.css            # Additional/global styles
 ```
 
-## 🎯 Key Implementation Details
+## 🎯 Key implementation details
 
-### Custom Shader Materials
+### **Custom shader materials**
 
 The gallery uses custom GLSL shaders to create:
 - **Cloth-like curving**: Images curve naturally based on scroll velocity
@@ -160,11 +165,11 @@ The gallery uses custom GLSL shaders to create:
 - **Flag waving**: Hover effects that create a flag-like waving motion
 - **Dynamic blur**: Depth-based blur that enhances the 3D effect
 
-### Spatial Distribution Algorithm
+### **Spatial distribution algorithm**
 
-Images are positioned using a golden angle distribution pattern, ensuring natural and visually pleasing spacing in 3D space.
+Images are positioned using a golden-angle–inspired distribution pattern, ensuring natural and visually pleasing spacing in 3D space.
 
-### Performance Optimizations
+### **Performance optimizations**
 
 - Material pooling to minimize object creation
 - Efficient texture loading with `useTexture` hook
@@ -178,7 +183,5 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 🙏 Acknowledgments
 
 Built with love using amazing open-source libraries. Special thanks to the React Three Fiber and Three.js communities for their incredible work.
-
----
 
 For questions, suggestions, or contributions, please open an issue or submit a pull request.
