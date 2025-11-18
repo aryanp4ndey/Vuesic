@@ -184,4 +184,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 Built with love using amazing open-source libraries. Special thanks to the React Three Fiber and Three.js communities for their incredible work.
 
+Huge credit to [@joelbqz](https://x.com/joelbqz) for the original inspiration and work behind this project.
+
 For questions, suggestions, or contributions, please open an issue or submit a pull request.
