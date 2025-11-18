@@ -7,7 +7,7 @@ Built with **Next.js**, **React Three Fiber**, and **Three.js**, it blends motio
 ![Vuesic](https://img.shields.io/badge/Vuesic-Interactive%20Gallery-success)
 ![Next.js](https://img.shields.io/badge/Next.js-15.5.3-black)
 ![React Three Fiber](https://img.shields.io/badge/React%20Three%20Fiber-latest-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 
 ## ✨ Features
 
