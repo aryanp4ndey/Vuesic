@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist_Mono, Instrument_Serif } from 'next/font/google';
 import "./globals.css"
+import IframeProvider from "@/components/providers/IframeProvider";
 
 const geistMono = Geist_Mono({
 	variable: '--font-geist-mono',
@@ -33,7 +34,9 @@ export default function RootLayout({
 			<body
 				className={`${geistMono.variable} ${instrumentSerif.variable} antialiased`}
 			>
-				{children}
+                                <IframeProvider>
+				    {children}
+                                </IframeProvider>
 			</body>
 		</html>
 	);

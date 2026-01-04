@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import InfiniteGallery from '@/components/InfiniteGallery';
 import EditModal from '@/components/EditModal';
+import { useIframe } from '@/components/providers/IframeProvider';
 import { Edit2 } from 'lucide-react';
 
 export default function Home() {
@@ -23,6 +24,13 @@ export default function Home() {
 	);
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 	const [shouldAttemptPlay, setShouldAttemptPlay] = useState(false);
+    const { isIframe } = useIframe();
+
+    useEffect(() => {
+        if (isIframe) {
+            setPortfolioText("damnnn");
+        }
+    }, [isIframe]);
 
 	const handleSave = (
 		text: string,
@@ -147,13 +155,15 @@ export default function Home() {
 			)}
 
 			{/* Edit Button */}
-			<button
-				onClick={() => setIsEditModalOpen(true)}
-				className="fixed top-6 right-6 md:top-auto md:right-auto md:bottom-6 md:left-6 z-40 p-3 bg-(--background)/80 backdrop-blur-sm border border-(--foreground)/20 text-(--foreground)/80 hover:text-foreground hover:bg-(--foreground)/10 hover:border-(--foreground)/40 rounded-full transition-all pointer-events-auto"
-				aria-label="Edit portfolio"
-			>
-				<Edit2 className="w-5 h-5" />
-			</button>
+			{!isIframe && (
+				<button
+					onClick={() => setIsEditModalOpen(true)}
+					className="fixed top-6 right-6 md:top-auto md:right-auto md:bottom-6 md:left-6 z-40 p-3 bg-(--background)/80 backdrop-blur-sm border border-(--foreground)/20 text-(--foreground)/80 hover:text-foreground hover:bg-(--foreground)/10 hover:border-(--foreground)/40 rounded-full transition-all pointer-events-auto"
+					aria-label="Edit portfolio"
+				>
+					<Edit2 className="w-5 h-5" />
+				</button>
+			)}
 
 			{/* Edit Modal */}
 			<EditModal
